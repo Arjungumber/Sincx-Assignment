@@ -24,7 +24,7 @@ export default function Register() {
             formData
         );
         localStorage.setItem("token", res.data.token); 
-        localStorage.setItem("user", formData);
+        localStorage.setItem("user", res.data.user.name);
         navigate("/");
         toast.success(res.data.message || "User registered successfully!"); 
         } catch (err) {

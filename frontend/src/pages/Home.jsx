@@ -5,7 +5,6 @@ import { getTasks, createTask, updateTask, deleteTask } from "../helpers/tasks";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import FilterSortBar from "../components/dropdown";
-import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
@@ -58,7 +57,7 @@ export default function Home() {
   const handleUpdateTask = async (id, updatedData) => {
     setIsModalOpen(true);
     try {
-      await updateTask(id, updatedData);
+      await updateTask(id, updatedData, localStorage.getItem("token"));
       setIsModalOpen(false);
       toast.success("Task updated successfully!");
       fetchTasks();
@@ -76,7 +75,7 @@ export default function Home() {
 
   const handleDelete = async (id) => {
     try {
-      await deleteTask(id);
+      await deleteTask(id, localStorage.getItem("token"));
       toast.success("Task deleted successfully!");
       fetchTasks();
     } catch (error) {
@@ -101,8 +100,6 @@ export default function Home() {
 
   return (
     <div className="max-w-4xl mx-auto mt-8">
-
-      {jwtDecode(localStorage.getItem("token")).role === "admin" && (
         <div className="flex justify-end">
           <button
             onClick={() => {
@@ -114,8 +111,7 @@ export default function Home() {
             Add New Task
           </button>
         </div>
-      )}
-
+    
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
         <div className="flex items-center gap-3">
           <FilterSortBar

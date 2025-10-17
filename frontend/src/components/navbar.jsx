@@ -1,13 +1,11 @@
 import { Briefcase, User, LogOut } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 
 export default function Navbar() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-   const user = localStorage.getItem("user") ||  "user";
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);  
+  const user = localStorage.getItem("user") ||  "user";
   const handleLogout = () => {
     localStorage.clear();
     toast.success("Logged out successfully!");

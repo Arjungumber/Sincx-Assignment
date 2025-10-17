@@ -23,7 +23,13 @@ router.post("/register", async (req, res) => {
         role,
         });
 
-        res.status(201).json({ message: "User registered successfully", user });
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
+        res.status(201).json({ message: "User registered successfully", user, token });
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
     }

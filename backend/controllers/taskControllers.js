@@ -57,6 +57,11 @@ export const getTaskById = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     try {
+        const { id, role } = req.user; 
+        if(role !== "admin") {
+            res.status(403).json({ message: "Forbidden: Only admins can update tasks" });
+            return;
+        }
         const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         });
@@ -69,6 +74,13 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
     try {
+        const { id, role } = req.user;
+        if (role !== "admin") {
+            res
+                .status(403)
+                .json({ message: "Forbidden: Only admins can delete tasks" });
+            return;
+        }
         await Task.findByIdAndDelete(req.params.id);
         res.json({ message: "Task deleted" });
     } catch (err) {

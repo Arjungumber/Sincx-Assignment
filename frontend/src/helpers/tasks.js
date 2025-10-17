@@ -18,8 +18,16 @@ export const createTask = (taskData,token) => API.post("/tasks", taskData, {
     });
 
 
-export const updateTask = (id, updatedData) =>
-    API.put(`/tasks/${id}`, updatedData);
+export const updateTask = (id, updatedData,token) =>
+  API.put(`/tasks/${id}`, updatedData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
 
-export const deleteTask = (id) => API.delete(`/tasks/${id}`);
+export const deleteTask = (id,token) => API.delete(`/tasks/${id}`,{
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+});
