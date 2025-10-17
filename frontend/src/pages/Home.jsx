@@ -5,6 +5,7 @@ import { getTasks, createTask, updateTask, deleteTask } from "../helpers/tasks";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import FilterSortBar from "../components/dropdown";
+import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
@@ -99,18 +100,21 @@ export default function Home() {
     });
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => {
-            setTaskToEdit(null);
-            setIsModalOpen(true);
-          }}
-          className="bg-blue-500 text-white mt-4 px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Add New Task
-        </button>
-      </div>
+    <div className="max-w-4xl mx-auto mt-8">
+
+      {jwtDecode(localStorage.getItem("token")).role === "admin" && (
+        <div className="flex justify-end">
+          <button
+            onClick={() => {
+              setTaskToEdit(null);
+              setIsModalOpen(true);
+            }}
+            className="bg-blue-500 text-white mb-4 px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Add New Task
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
         <div className="flex items-center gap-3">
