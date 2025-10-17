@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {jwtDecode} from "jwt-decode";
 
 export default function TaskForm({ onAdd, onUpdate, taskToEdit }) {
     const [title, setTitle] = useState("");
@@ -6,35 +7,36 @@ export default function TaskForm({ onAdd, onUpdate, taskToEdit }) {
     const [status, setStatus] = useState("Pending");
     const [dueDate, setDueDate] = useState("");
 
-    // Prefill form if editing
     useEffect(() => {
         if (taskToEdit) {
         setTitle(taskToEdit.title);
         setAssignedTo(taskToEdit.assignedTo);
         setStatus(taskToEdit.status);
-        setDueDate(taskToEdit.dueDate);
+        const formattedDate = taskToEdit.dueDate
+            ? new Date(taskToEdit.dueDate).toISOString().split("T")[0]
+            : "";
+        setDueDate(formattedDate);
         }
     }, [taskToEdit]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title || !assignedTo || !dueDate) return;
-
+        const createdBy = jwtDecode(localStorage.getItem("token")).id;
         const taskData = {
-        id: taskToEdit ? taskToEdit.id : Date.now(),
         title,
         assignedTo,
         status,
         dueDate,
+        createdBy,
         };
 
         if (taskToEdit) {
-        onUpdate(taskData);
+        onUpdate(taskToEdit._id, taskData);
         } else {
         onAdd(taskData);
         }
 
-        // reset form
         setTitle("");
         setAssignedTo("");
         setStatus("Pending");

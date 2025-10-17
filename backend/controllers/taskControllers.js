@@ -1,5 +1,5 @@
 import Task from "../models/task.js";
-
+import mongoose from "mongoose";
 
 export const createTask = async (req, res) => {
     try {
@@ -14,16 +14,25 @@ export const createTask = async (req, res) => {
 export const getTasks = async (req, res) => {
     try {
         const { status, sort, search } = req.query;
+        const { id, role } = req.user; 
 
         let query = {};
+
+        
+        if (role !== "admin") {
+        query.createdBy = id;
+        }
+
         if (status) query.status = status;
-        if (search)
+
+        if (search) {
         query.$or = [
             { title: { $regex: search, $options: "i" } },
             { assignedTo: { $regex: search, $options: "i" } },
         ];
+        }
 
-        let tasks = Task.find(query);
+        let tasks = Task.find(query).populate("createdBy");
         if (sort === "dueDate") tasks = tasks.sort({ dueDate: 1 });
 
         const result = await tasks;
@@ -32,6 +41,7 @@ export const getTasks = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
 
 
 export const getTaskById = async (req, res) => {
