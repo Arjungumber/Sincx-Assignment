@@ -134,7 +134,7 @@ GET /tasks?status=Pending&sort=dueDate&search=John
 ```
 
 ### 4. Delete a task
-**Endpoint:** `PUT /api/tasks/:id` 
+**Endpoint:** `delete /api/tasks/:id` 
 **Description:**  
 - Deletes task.
 - Only admin can delete a task
@@ -158,7 +158,7 @@ delete api/tasks/650c3f2a9f1e4d0012345678
 # Installation
 1. **Clone the repository:**
    ```bash
-   git clone <[your-repo-url](https://github.com/Arjungumber/Sincx-Assignment.git)>
+   git clone (https://github.com/Arjungumber/Sincx-Assignment.git)
    cd sincx-assignment
 
 
