@@ -33,7 +33,7 @@ A full-stack **MERN** web application that allows admins to manage tasks and emp
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
+   git clone <[your-repo-url](https://github.com/Arjungumber/Sincx-Assignment.git)>
    cd sincx-assignment
 
 
