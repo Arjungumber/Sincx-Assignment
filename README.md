@@ -31,7 +31,7 @@ A full-stack **MERN** web application that allows admins to manage tasks and emp
 
 # Task API Documentation
 ## Base URL
-http://localhost:5000/tasks
+http://localhost:5000
 
 ## Authentication
 All endpoints require a JWT token in the headers:
