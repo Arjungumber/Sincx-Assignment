@@ -31,7 +31,7 @@ export default function Home() {
       toast.success("Tasks fetched successfully!");
       setTasks(data);
     } catch (error) {
-      toast.error("Error fetching tasks", error);
+      toast.error(error.message);
     }
   };
 
@@ -50,7 +50,7 @@ export default function Home() {
       fetchTasks();
     } catch (error) {
       console.error("Error adding task:", error);
-      toast.error("Error adding task");
+      toast.error(error.message);
     }
   };
 
@@ -59,9 +59,12 @@ export default function Home() {
     try {
       await updateTask(id, updatedData);
       setIsModalOpen(false);
+      toast.success("Task updated successfully!");
       fetchTasks();
     } catch (error) {
       console.error("Error updating task:", error);
+      setIsModalOpen(false);
+      toast.error(error.message);
     }
   };
 
@@ -73,9 +76,11 @@ export default function Home() {
   const handleDelete = async (id) => {
     try {
       await deleteTask(id);
+      toast.success("Task deleted successfully!");
       fetchTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
+      toast.error(error.message);
     }
   };
 
